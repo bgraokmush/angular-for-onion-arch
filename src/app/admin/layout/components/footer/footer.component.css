@@ -1,0 +1,9 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+}
+
+.footer span {
+  font-size: 12px;
+  color: #949494;
+}

@@ -1,7 +1,9 @@
-<ul>
-    <li><a routerLink="/admin">Dashboard</a></li>
-    <li><a routerLink="/admin/customers">Customer</a></li>
-    <li><a routerLink="/admin/orders">Order</a></li>
-    <li><a routerLink="/admin/products">Products</a></li>
-    <li><a routerLink="/">Back to Page</a></li>
-</ul>
+<mat-list class="sidebar-list">
+    <a mat-list-item routerLink="/admin"><mat-icon matListItemIcon class="icon">home</mat-icon>Dashboard</a>
+    <a mat-list-item routerLink="/admin/customers"><mat-icon matListItemIcon class="icon">group</mat-icon>Customer</a>
+    <a mat-list-item routerLink="/admin/orders"><mat-icon matListItemIcon
+            class="icon">shopping_basket</mat-icon>Order</a>
+    <a mat-list-item routerLink="/admin/products"><mat-icon matListItemIcon class="icon">category</mat-icon>
+        Products</a>
+    <a mat-list-item routerLink="/"><mat-icon matListItemIcon class="icon">keyboard_returns</mat-icon>Back to Page</a>
+</mat-list>
