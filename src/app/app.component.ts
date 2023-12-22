@@ -7,14 +7,5 @@ declare var $: any;
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'E-TicaretClient';
-
-  ngOnInit() {
-    $(() => {
-      console.log('test');
-    });
-    $(document).ready(() => {
-      console.log('test 2');
-    });
-  }
+  title = 'Hoş Geldiniz!';
 }
