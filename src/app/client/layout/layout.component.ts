@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-declare var alertify: any;
+import { Component } from '@angular/core';
+import {
+  MessagePosition,
+  MessageType,
+  ToastrService,
+} from 'src/app/services/client/toastr.service';
 
 @Component({
   selector: 'app-layout',
@@ -7,7 +11,10 @@ declare var alertify: any;
   styleUrls: ['./layout.component.css'],
 })
 export class LayoutComponent {
-  OnInit(): void {
-    alertify.success('test');
+  constructor(private toastrService: ToastrService) {
+    toastrService.message('Hello World', 'Title', {
+      messageType: MessageType.Success,
+      position: MessagePosition.TopLeft,
+    });
   }
 }
