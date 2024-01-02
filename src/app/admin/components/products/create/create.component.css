@@ -1,0 +1,12 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 50%;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

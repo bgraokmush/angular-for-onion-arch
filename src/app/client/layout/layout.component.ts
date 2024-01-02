@@ -11,10 +11,5 @@ import {
   styleUrls: ['./layout.component.css'],
 })
 export class LayoutComponent {
-  constructor(private toastrService: ToastrService) {
-    toastrService.message('Hello World', 'Title', {
-      messageType: MessageType.Success,
-      position: MessagePosition.TopLeft,
-    });
-  }
+  constructor(private toastrService: ToastrService) {}
 }
