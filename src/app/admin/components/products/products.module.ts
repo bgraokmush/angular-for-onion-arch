@@ -11,6 +11,8 @@ import { ListComponent } from './list/list.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [ProductsComponent, CreateComponent, ListComponent],
@@ -23,6 +25,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     MatTooltipModule,
     MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
     RouterModule.forChild([{ path: '', component: ProductsComponent }]),
   ],
 })

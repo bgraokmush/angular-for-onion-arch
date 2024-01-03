@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { CreateProduct } from 'src/app/contracts/Product/create-product';
@@ -24,6 +24,9 @@ export class CreateComponent extends BaseComponent implements OnInit {
   }
   ngOnInit(): void {}
 
+  @Output() createdProduct: EventEmitter<CreateProduct> =
+    new EventEmitter<CreateProduct>();
+
   create(
     Name: HTMLInputElement,
     Stock: HTMLInputElement,
@@ -35,6 +38,7 @@ export class CreateComponent extends BaseComponent implements OnInit {
       stock: parseInt(Stock.value),
       price: parseFloat(Price.value),
     };
+
     this.productService.createProduct(
       createProduct,
       () => {
@@ -44,6 +48,7 @@ export class CreateComponent extends BaseComponent implements OnInit {
           dismissOther: true,
         });
         this.hideSpinner(SpinnerType.Admin);
+        this.createdProduct.emit(createProduct);
       },
       (errorMessage) => {
         errorMessage.forEach((messageString) => {
