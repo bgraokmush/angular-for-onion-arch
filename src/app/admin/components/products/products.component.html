@@ -1,8 +1,9 @@
 <mat-tab-group>
-    <mat-tab label="Yeni Ürün Ekle">
-        <app-create (createdProduct)="createdProduct($event)"></app-create>
-    </mat-tab>
+
     <mat-tab label="Ürünleri Listele">
         <app-list></app-list>
+    </mat-tab>
+    <mat-tab label="Yeni Ürün Ekle">
+        <app-create (createdProduct)="createdProduct($event)"></app-create>
     </mat-tab>
 </mat-tab-group>

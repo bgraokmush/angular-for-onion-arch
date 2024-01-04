@@ -11,6 +11,8 @@ import {
 } from 'src/app/services/admin/alertify.service';
 import { ProdcutService } from 'src/app/services/common/models/prodcut.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -31,6 +33,8 @@ export class ListComponent extends BaseComponent implements OnInit {
     'price',
     'createdDate',
     'updateDate',
+    'edit',
+    'delete',
   ];
 
   dataSource: MatTableDataSource<GetProduct> = null;
@@ -59,6 +63,8 @@ export class ListComponent extends BaseComponent implements OnInit {
     this.dataSource = new MatTableDataSource<GetProduct>(allProducts.products);
     this.paginator.length = allProducts.totalCount;
   }
+
+
 
   async pageChanged() {
     await this.getProducts();
