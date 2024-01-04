@@ -57,14 +57,13 @@ export class ListComponent extends BaseComponent implements OnInit {
             dismissOther: false,
             delay: 5,
           });
+          this.hideSpinner(SpinnerType.Admin);
         }
       );
 
     this.dataSource = new MatTableDataSource<GetProduct>(allProducts.products);
     this.paginator.length = allProducts.totalCount;
   }
-
-
 
   async pageChanged() {
     await this.getProducts();

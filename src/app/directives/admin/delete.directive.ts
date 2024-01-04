@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {
   Directive,
   ElementRef,
@@ -8,10 +9,16 @@ import {
   Renderer2,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { data, error } from 'jquery';
 import {
   DeleteDialogComponent,
   DeleteState,
 } from 'src/app/dialogs/delete.dialog/delete.dialog.component';
+import {
+  AlertifyService,
+  MessageType,
+  Position,
+} from 'src/app/services/admin/alertify.service';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 import { ProdcutService } from 'src/app/services/common/models/prodcut.service';
 declare var $: any;
@@ -23,8 +30,9 @@ export class DeleteDirective {
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    private productService: ProdcutService,
-    public dialog: MatDialog
+    private httpClientService: HttpClientService,
+    public dialog: MatDialog,
+    private alertifyService: AlertifyService
   ) {
     // Button öğesini oluştur
     const button = this.renderer.createElement('button');
@@ -86,6 +94,7 @@ export class DeleteDirective {
   }
 
   @Input() id: string;
+  @Input() controller: string;
 
   @Output() callback: EventEmitter<any> = new EventEmitter();
 
@@ -93,10 +102,32 @@ export class DeleteDirective {
   async onClick() {
     this.openDialog(async () => {
       const td: HTMLTableElement = this.element.nativeElement.parentNode;
-      await this.productService.delete(this.id);
-      $(td).fadeOut(300, () => {
-        this.callback.emit();
-      });
+      this.httpClientService
+        .delete<any>(
+          {
+            controller: this.controller,
+          },
+          this.id
+        )
+        .subscribe(
+          (data) => {
+            $(td).fadeOut(300, () => {
+              this.callback.emit();
+              this.alertifyService.message('Ürün başarıyla silindi. ', {
+                messageType: MessageType.Success,
+                dismissOther: false,
+              });
+            });
+          },
+          (errorResponse: HttpErrorResponse) => {
+            errorResponse.message.split('\n').forEach((v) => {
+              this.alertifyService.message(v, {
+                messageType: MessageType.Error,
+                dismissOther: false,
+              });
+            });
+          }
+        );
     });
   }
 
