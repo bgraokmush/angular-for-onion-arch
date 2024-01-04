@@ -7,6 +7,11 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  DeleteDialogComponent,
+  DeleteState,
+} from 'src/app/dialogs/delete.dialog/delete.dialog.component';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 import { ProdcutService } from 'src/app/services/common/models/prodcut.service';
 declare var $: any;
@@ -18,7 +23,8 @@ export class DeleteDirective {
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    private productService: ProdcutService
+    private productService: ProdcutService,
+    public dialog: MatDialog
   ) {
     // Button öğesini oluştur
     const button = this.renderer.createElement('button');
@@ -85,10 +91,23 @@ export class DeleteDirective {
 
   @HostListener('click')
   async onClick() {
-    const td: HTMLTableElement = this.element.nativeElement.parentNode;
-    await this.productService.delete(this.id);
-    $(td).fadeOut(300, () => {
-      this.callback.emit();
+    this.openDialog(async () => {
+      const td: HTMLTableElement = this.element.nativeElement.parentNode;
+      await this.productService.delete(this.id);
+      $(td).fadeOut(300, () => {
+        this.callback.emit();
+      });
+    });
+  }
+
+  openDialog(afterClosed: any): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '450px',
+      data: DeleteState.Yes,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === DeleteState.Yes) afterClosed();
     });
   }
 }

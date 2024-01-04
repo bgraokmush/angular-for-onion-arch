@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Siliniyor</h1>
+<div mat-dialog-content>
+    <p>Seçtiğiniz öğrenin kalı olarak silinmesini istediğinizden emin misiniz?</p>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Hayır</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Evet</button>
+</div>
