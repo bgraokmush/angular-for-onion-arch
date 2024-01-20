@@ -22,5 +22,9 @@ export class ProductsComponent extends BaseComponent implements OnInit {
 
   createdProduct(createdProduct: CreateProduct) {
     this.listComponent.getProducts();
+
+    setInterval(() => {
+      this.hideSpinner(SpinnerType.Admin);
+    }, 500);
   }
 }

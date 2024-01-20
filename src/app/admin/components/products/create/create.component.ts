@@ -7,6 +7,7 @@ import {
   MessageType,
   Position,
 } from 'src/app/services/admin/alertify.service';
+import { FileUploadOptions } from 'src/app/services/common/file-upload/file-upload.component';
 import { ProdcutService } from 'src/app/services/common/models/prodcut.service';
 
 @Component({
@@ -26,6 +27,13 @@ export class CreateComponent extends BaseComponent implements OnInit {
 
   @Output() createdProduct: EventEmitter<CreateProduct> =
     new EventEmitter<CreateProduct>();
+  @Output() fileUploadOptions: Partial<FileUploadOptions> = {
+    controller: 'Product',
+    action: 'upload',
+    explanation: 'Resimleri sürükleyin veya seçin...',
+    isAdminPage: true,
+    accept: 'image/*',
+  };
 
   create(
     Name: HTMLInputElement,

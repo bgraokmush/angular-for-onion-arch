@@ -13,5 +13,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.showSpinner(SpinnerType.Client);
+
+    setInterval(() => {
+      this.hideSpinner(SpinnerType.Client);
+    }, 500);
   }
 }

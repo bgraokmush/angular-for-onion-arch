@@ -12,12 +12,5 @@ import {
 })
 export class LayoutComponent implements OnInit {
   constructor(private alertifyService: AlertifyService) {}
-  ngOnInit(): void {
-    this.alertifyService.message('Hoş Geldiniz!', {
-      messageType: MessageType.Notify,
-      position: Position.BottomRight,
-      delay: 3,
-      dismissOther: false,
-    });
-  }
+  ngOnInit(): void {}
 }

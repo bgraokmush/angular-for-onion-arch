@@ -1,0 +1,81 @@
+.padding {
+  margin-top: 1rem;
+  padding: 2rem;
+  width: 30vw;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.pb-2 {
+  padding-bottom: 15px;
+}
+
+@import 'variabels.scss';
+
+:host ::ng-deep {
+
+  ngx-file-drop {
+
+    div.ngx-file-drop__content,
+    div.ngx-file-drop__drop-zone--enabled,
+    div.ngx-file-drop__drop-zone--disabled {
+      height: 220px;
+      border-radius: 6px;
+      color: $colors-text-primary;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: $font-family-standard;
+      flex-direction: column;
+      transition: all .2s ease-in-out;
+
+      p {
+        color:  $colors-grey-200;
+        text-align: center;
+        padding: 2rem;
+        font-size: 1rem; 
+      }
+    }
+
+    div.ngx-file-drop__drop-zone--enabled,
+    div.ngx-file-drop__drop-zone--disabled {
+      border: 1px dashed $colors-border
+    }
+
+    div.ngx-file-drop__drop-zone--enabled:hover {
+      border-color: $colors-grey-700;
+    }
+
+    div.ngx-file-drop__drop-zone--disabled:hover {
+      border: 3px dashed $colors-border;
+    }
+  }
+}
+
+table {
+  margin-top: 1rem;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid $colors-border;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+table thead tr {
+  background-color: $colors-background-secondary;
+  color: $colors-text-primary;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.upload-name-style{
+  font-size: .9rem;
+  font-weight: 400;
+  font-family: $font-family-standard;
+  color: $colors-text-primary;
+  background-color: $colors-grey-500 !important;
+}
