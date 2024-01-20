@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete.dialog/delete.dialog.component';
 import { FileUploadModule } from 'src/app/services/common/file-upload/file-upload.module';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DialogsModule } from 'src/app/dialogs/dialogs.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
     CreateComponent,
     ListComponent,
     DeleteDirective,
-    DeleteDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +41,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatDialogModule,
     FileUploadModule,
     MatGridListModule,
+    DialogsModule,
     RouterModule.forChild([{ path: '', component: ProductsComponent }]),
   ],
 })

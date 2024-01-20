@@ -11,6 +11,12 @@ import {
 import { HttpClientService } from '../http-client.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { data, error } from 'jquery';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  ConfirmState,
+  FileUploadDialogComponent,
+} from 'src/app/dialogs/file-upload-dialog/file-upload-dialog.component';
+import { DialogService } from '../dialog.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -18,14 +24,16 @@ import { data, error } from 'jquery';
   styleUrls: ['./file-upload.component.scss'],
 })
 export class FileUploadComponent {
-  public files: NgxFileDropEntry[];
   @Input() options: Partial<FileUploadOptions>;
   constructor(
     private alertify: AlertifyService,
     private toasterService: ToastrService,
-    private httpClientService: HttpClientService
+    private httpClientService: HttpClientService,
+    private dialog: MatDialog,
+    private dialogService: DialogService
   ) {}
 
+  public files: NgxFileDropEntry[];
   checked = true;
 
   get className(): string {
@@ -50,48 +58,54 @@ export class FileUploadComponent {
           fileData.append(_file.name, _file, droppedFile.relativePath);
         });
 
-        this.httpClientService
-          .post(
-            {
-              controller: this.options.controller,
-              action: this.options.action,
-              queryStrings: this.options.queryStrings,
-              headers: new HttpHeaders({ responseType: 'blob' }),
-            },
-            fileData
-          )
-          .subscribe(
-            (data) => {
-              if (this.options.isAdminPage) {
-                this.alertify.message('Dosyalar başarıyla yüklendi.', {
-                  messageType: alertifyType.Success,
-                });
-              } else {
-                this.toasterService.message(
-                  'Dosyalar başarıyla yüklendi.',
-                  'Başarılı',
-                  {
-                    messageType: toastrType.Success,
+        this.dialogService.openDialog({
+          componentType: FileUploadDialogComponent,
+          data: ConfirmState.Yes,
+          afterClosed: () => {
+            this.httpClientService
+              .post(
+                {
+                  controller: this.options.controller,
+                  action: this.options.action,
+                  queryStrings: this.options.queryStrings,
+                  headers: new HttpHeaders({ responseType: 'blob' }),
+                },
+                fileData
+              )
+              .subscribe(
+                (data) => {
+                  if (this.options.isAdminPage) {
+                    this.alertify.message('Dosyalar başarıyla yüklendi.', {
+                      messageType: alertifyType.Success,
+                    });
+                  } else {
+                    this.toasterService.message(
+                      'Dosyalar başarıyla yüklendi.',
+                      'Başarılı',
+                      {
+                        messageType: toastrType.Success,
+                      }
+                    );
                   }
-                );
-              }
-            },
-            (errorResponse: HttpErrorResponse) => {
-              if (this.options.isAdminPage) {
-                this.alertify.message('Dosyalar Yüklenemedi.', {
-                  messageType: alertifyType.Error,
-                });
-              } else {
-                this.toasterService.message(
-                  errorResponse.message,
-                  'Dosyalar Yüklenemedi.',
-                  {
-                    messageType: toastrType.Error,
+                },
+                (errorResponse: HttpErrorResponse) => {
+                  if (this.options.isAdminPage) {
+                    this.alertify.message('Dosyalar Yüklenemedi.', {
+                      messageType: alertifyType.Error,
+                    });
+                  } else {
+                    this.toasterService.message(
+                      errorResponse.message,
+                      'Dosyalar Yüklenemedi.',
+                      {
+                        messageType: toastrType.Error,
+                      }
+                    );
                   }
-                );
-              }
-            }
-          );
+                }
+              );
+          },
+        });
       } else {
         if (this.options.isAdminPage) {
           this.alertify.message('Format desteklenmiyor.', {

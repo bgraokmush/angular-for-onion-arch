@@ -19,6 +19,7 @@ import {
   MessageType,
   Position,
 } from 'src/app/services/admin/alertify.service';
+import { DialogService } from 'src/app/services/common/dialog.service';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 import { ProdcutService } from 'src/app/services/common/models/prodcut.service';
 declare var $: any;
@@ -31,8 +32,8 @@ export class DeleteDirective {
     private element: ElementRef,
     private renderer: Renderer2,
     private httpClientService: HttpClientService,
-    public dialog: MatDialog,
-    private alertifyService: AlertifyService
+    private alertifyService: AlertifyService,
+    private dialogService: DialogService
   ) {
     // Button öğesini oluştur
     const button = this.renderer.createElement('button');
@@ -100,45 +101,38 @@ export class DeleteDirective {
 
   @HostListener('click')
   async onClick() {
-    this.openDialog(async () => {
-      const td: HTMLTableElement = this.element.nativeElement.parentNode;
-      this.httpClientService
-        .delete<any>(
-          {
-            controller: this.controller,
-          },
-          this.id
-        )
-        .subscribe(
-          (data) => {
-            $(td).fadeOut(300, () => {
-              this.callback.emit();
-              this.alertifyService.message('Ürün başarıyla silindi. ', {
-                messageType: MessageType.Success,
-                dismissOther: false,
-              });
-            });
-          },
-          (errorResponse: HttpErrorResponse) => {
-            errorResponse.message.split('\n').forEach((v) => {
-              this.alertifyService.message(v, {
-                messageType: MessageType.Error,
-                dismissOther: false,
-              });
-            });
-          }
-        );
-    });
-  }
-
-  openDialog(afterClosed: any): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: '450px',
+    this.dialogService.openDialog({
+      componentType: DeleteDialogComponent,
       data: DeleteState.Yes,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === DeleteState.Yes) afterClosed();
+      afterClosed: async () => {
+        const td: HTMLTableElement = this.element.nativeElement.parentNode;
+        this.httpClientService
+          .delete<any>(
+            {
+              controller: this.controller,
+            },
+            this.id
+          )
+          .subscribe(
+            (data) => {
+              $(td).fadeOut(300, () => {
+                this.callback.emit();
+                this.alertifyService.message('Ürün başarıyla silindi. ', {
+                  messageType: MessageType.Success,
+                  dismissOther: false,
+                });
+              });
+            },
+            (errorResponse: HttpErrorResponse) => {
+              errorResponse.message.split('\n').forEach((v) => {
+                this.alertifyService.message(v, {
+                  messageType: MessageType.Error,
+                  dismissOther: false,
+                });
+              });
+            }
+          );
+      },
     });
   }
 }
